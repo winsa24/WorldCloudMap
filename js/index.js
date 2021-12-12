@@ -34,16 +34,15 @@ var createViz = function(){
 var loadData = function(svgEl){
     // ...
     Promise.all([
-        d3.json("custom.geojson"),
-        d3.csv("langue.csv"),
+        d3.json("data/custom.geojson"),
+        d3.csv("data/langue.csv"),
     ])
     .then(function(data){
         console.log(data);
         ctx.map = data[0];
         ctx.langue = data[1];
         createMap(svgEl);
-        // createWordCloud(svgEl);
-        // clipImage();
+        // createWordCloud();
         tmp();
     })
 };
@@ -71,63 +70,13 @@ var createMap = function(svg) {
         .attr('id', (d) => d.properties.name);
        
     clipCloud();
-    // createANDclipWC();
-   
-    
-}
-
-var createANDclipWC = function(){
-    var myWords = Object.values(ctx.langue[14]);
-        myWords.shift();
-        
-        // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 10, bottom: 10, left: 10},
-            width = 1600 - margin.left - margin.right,
-            height = 800 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
-        var svg = d3.select("#main").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .attr("class","wordcloud");
-
-        // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
-        var layout = d3.layout.cloud()
-                        .size([width, height])
-                        .words(myWords.map(function(d) { return {text: d}; }))
-                        .padding(10)
-                        .fontSize(60)
-                        .on("end", draw);
-                        layout.start();
-
-        // This function takes the output of 'layout' above and draw the words
-        // Better not to touch it. To change parameters, play with the 'layout' variable above
-        function draw(words) {
-            svg
-                .append("g")
-                .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-                .selectAll("text")
-                .data(words)
-                .enter().append("text")
-                .style("font-size", function(d) { return d.size + "px"; })
-                .attr("text-anchor", "middle")
-                .attr("transform", function(d) {
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .text(function(d) { return d.text; });
-        }
-
-
-    d3.selectAll(".wordcloud g")
-        .attr("clip-path", (d, i) => "url(#clip-China");
 
 }
 
-
-var createWordCloud = function(n) {
+var createWordCloud = function() {
     for(var i = 0 ; i < 10; i ++){
         // List of words
-        var myWords = Object.values(ctx.langue[n]);
+        var myWords = Object.values(ctx.langue[i]);
         myWords.shift();
         
         // set the dimensions and margins of the graph
@@ -169,48 +118,8 @@ var createWordCloud = function(n) {
                     .text(function(d) { return d.text; });
         }
     }
-
-    clipCloud(svg);
-
 }
 
-
-var clipImage = function(){
-    const margin = { top: 10, right: 30, bottom: 30, left: 30 }
-    const width = 1600 - margin.left - margin.right
-    const height = 800 - margin.top - margin.bottom
-    // have a radius for clipping mask
-    let radius = 100
-
-    const svg = d3.select('.wc').append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom);
-
-    const defs = svg.append('defs')
-    // define the clipPath
-    defs.append('clipPath')  // define a clip path
-        .attr('id', 'circle-clip') // give the clipPath an ID
-        .append("use")
-        .attr("xlink:href", "#China")
-        .attr('x',function(d,i){
-            // get x coord
-            console.log(this.getBBox().x)
-        })
-        .attr('y',function(d,i){
-            // get y coord
-            console.log(this.getBBox().y)
-        })
-        .attr('dx',function(d,i){
-            // get dx coord
-            console.log(parseInt(d3.select(this).attr('dx')))
-        })
-        // .attr("transform", "translate(-" + this.getBBox().x +", -" + this.getBBox().y + ")");
-
-    d3.select('.wc')
-        .attr('clip-path', 'url(#circle-clip)');
-
-
-}
 
 var tmp = function(){
     const svg = d3.select('#main').append('svg')
