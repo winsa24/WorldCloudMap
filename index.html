@@ -13,7 +13,31 @@
                 background-image: url(cn.png);
                 background-repeat: repeat; 
             }
-            svg { display: block;}
+            {% comment %} svg { display: block;} {% endcomment %}
+            {% comment %} svg {
+                position:absolute;
+                left:0px;
+                top:0px;
+            } {% endcomment %}
+
+            .overlap{
+                position:absolute;
+                left:0px;
+                top:0px;
+                background:#F00;
+                
+            }
+            .hold{
+                position:absolute;
+                left:0px;
+                top:0px;
+                background:rgba(117, 190, 218, 0);
+                z-index:100;
+            }
+            #map {
+                z-index:0;
+            }
+
 
         </style>
     </head>

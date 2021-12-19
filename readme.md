@@ -1,3 +1,4 @@
+# Project description  
 I'd like to explore the language distribution among the world. So I find this dataset : https://www.kaggle.com/rtatman/world-atlas-of-language-structures.
 In this dataset, there are six important columns : Name, latitude, longitude, genus, family, macroarea. Name is string that represent the language name. Latitude and longitude contains positive and negative double decimals. Genus has 544 different values. 256 different values in family. And 7 different values in macroarea.
 And there are 2679 rows of data in total.
@@ -12,3 +13,6 @@ But as far as I concerned for now, if we use this word-cloud-texture, it can nei
 
 potential added dataset:
 https://www.kaggle.com/rtatman/world-language-family-map?select=languages-and-dialects-geo.csv
+
+# Run the project  
+Start a python simple server and go to the assigned port, then you can interact with page with your cursor.  
